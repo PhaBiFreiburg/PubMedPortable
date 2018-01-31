@@ -536,15 +536,13 @@ class MedlineParser:
                     all_keywords = []
                     for subelem in elem:
                         #some documents contain duplicate keywords which would lead to a key error - if-clause
-                        if not subelem.text in all_keywords:
+                        #Some documents does not contain text and has just the keyword Tag which will be ignored with None
+                        if (not subelem.text in all_keywords) and (subelem.text != None):
                             all_keywords.append(subelem.text)
                         else:
                             continue
                         DBKeyword = PubMedDB.Keyword()
                         DBKeyword.keyword = subelem.text
-                        if DBKeyword.keyword == None:
-                            continue
-                        #catch KeyError in case there is no MajorTopicYN attribute before committing DBCitation
                         try:
                             DBKeyword.keyword_major_yn = subelem.attrib["MajorTopicYN"]
                         except:
