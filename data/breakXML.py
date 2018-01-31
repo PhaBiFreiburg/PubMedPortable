@@ -32,6 +32,9 @@ if __name__=="__main__":
 	fileEndTag = "</PubmedArticleSet>"
 
 	haveStartLine = False
+	lastFileWritingDone = False
+
+	outFileID = ""
 
 	with open(inFileName, 'r') as inFileFid:
 		for lineCounter, line in enumerate(inFileFid):
@@ -40,16 +43,16 @@ if __name__=="__main__":
 
 			if endTag in line:
 				outFileID.write(endTag + '\n')
-				documentCounter += 1
 				haveStartLine = False
 				if documentCounter == noOfDocumentsInOneXML:
 					outFileID.write("\n\n" + fileEndTag)
 					outFileID.close()
 					nextFile = True
 					fileNumber += 1
+					lastFileWritingDone = True
 					continue
+				documentCounter += 1
 				
-
 			if nextFile:
 				outFileName = outDirectoryName + "medline_" + str(fileNumber) + ".xml"
 				outFileID = open(outFileName, 'w')
@@ -59,6 +62,7 @@ if __name__=="__main__":
 
 			if startTag in line:
 				haveStartLine = True
+				lastFileWritingDone = False
 				outFileID.write('\n\n' + startTag + '\n')
 				continue
 
@@ -66,4 +70,7 @@ if __name__=="__main__":
 				outFileID.write(line)
 
 
+if not lastFileWritingDone:
+	outFileID.write("\n\n" + fileEndTag)
+	outFileID.close()
 
