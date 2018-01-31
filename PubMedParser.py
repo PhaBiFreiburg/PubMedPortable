@@ -418,11 +418,14 @@ class MedlineParser:
 
                         acc_numbers = databank.find("AccessionNumberList")
                         if acc_numbers != None:
+                            acc_numbers_duplicity = []
                             for acc_number in acc_numbers:
-                                DBAccession = PubMedDB.Accession()
-                                DBAccession.data_bank_name = DBDataBank.data_bank_name
-                                DBAccession.accession_number = acc_number.text
-                                DBCitation.accessions.append(DBAccession)
+                                if acc_number.text not in acc_numbers_duplicity:
+                                    DBAccession = PubMedDB.Accession()
+                                    DBAccession.data_bank_name = DBDataBank.data_bank_name
+                                    DBAccession.accession_number = acc_number.text
+                                    DBCitation.accessions.append(DBAccession)
+                                    acc_numbers_duplicity.append(acc_number.text)
 
                 if elem.tag == "Language":
                     DBLanguage = PubMedDB.Language()
