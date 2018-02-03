@@ -207,9 +207,8 @@ class MedlineParser:
                                 yearFound = True
                             except:
                                 print(_file, " not able to cast first 4 letters of medline_date ", temp_year)                            
-
-                    if yearFound:
-                        DBJournal.pub_date_year = temp_year
+                        if yearFound:
+                            DBJournal.pub_date_year = temp_year
                             
                 
                 #if there is the attribute ArticleDate, month and day are given
