@@ -639,7 +639,7 @@ class Grant(Base):
     fk_pmid            = Column(INTEGER, nullable=False, index=True)
     grantid         = Column(VARCHAR(200), index=True)
     acronym         = Column(VARCHAR(20))
-    agency          = Column(VARCHAR(200))
+    agency          = Column(VARCHAR(300))
     country          = Column(VARCHAR(200))
 
     def __init__(self):

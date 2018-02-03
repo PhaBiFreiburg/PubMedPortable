@@ -601,8 +601,6 @@ def _start_parser(path):
     # event = Event()
     print(path, '\tpid:', os.getpid())
     p = MedlineParser(path,db)
-    doneFiles.append(path)
-    print(doneFiles)
     s = p._parse()
     # event.wait(3)
     return path
@@ -627,17 +625,56 @@ def run(medline_path, clean, start, end, PROCESSES):
 
     paths.sort()
     
+    numberOfFiles = len(paths)
+    numberOfFileChunks = 6
+    numberOfBlocks = int(numberOfFiles / numberOfFileChunks)
+
+    restFiles = numberOfFiles % numberOfFileChunks
+
+    restFilesExist = False
+
+    if restFiles != 0:
+        restFilesExist = True
 
     pool = Pool(processes=PROCESSES)    # start with processors
     print("Initialized with ", PROCESSES, "processes")
-    #result.get() needs global variable db now - that is why a line "db = options.database" is added in "__main__" - the variable db cannot be given to __start_parser in map_async()
-    result = pool.map_async(_start_parser, paths[start:end])
+
+    startChunk = 0
+    endChunk = 0
+
+    for blocks in range(numberOfBlocks):
+        startChunk = blocks * numberOfFileChunks
+        endChunk = startChunk + numberOfFileChunks - 1
+
+        result = pool.map_async(_start_parser, paths[startChunk:endChunk])
+        try:
+            res = result.get()
+        except TypeError:
+            print(result, type(result))
+
+        time.sleep(5)
+
+        
+    if restFilesExist:
+        startChunk = endChunk
+        endChunk = startChunk + restFiles + 1
+
+    result = pool.map_async(_start_parser, paths[startChunk:endChunk])
     try:
         res = result.get()
     except TypeError:
         print(result, type(result))
 
-    print(len(paths), len(doneFiles))
+    # pool = Pool(processes=PROCESSES)    # start with processors
+    # print("Initialized with ", PROCESSES, "processes")
+        
+    # #result.get() needs global variable db now - that is why a line "db = options.database" is added in "__main__" - the variable db cannot be given to __start_parser in map_async()
+    # result = pool.map_async(_start_parser, paths[start:end])
+    # try:
+    #     res = result.get()
+    # except TypeError:
+    #     print(result, type(result))
+
     
     #without multiprocessing:
     #for path in paths:
