@@ -260,7 +260,7 @@ class Comment(Base):
 
     id                      = Column(Integer, primary_key=True)
     fk_pmid                 = Column(INTEGER, nullable=False, index = True)
-    ref_type                = Column(VARCHAR(20), nullable=False)
+    ref_type                = Column(VARCHAR(40), nullable=False)
     ref_source              = Column(VARCHAR(255), nullable=False)
     pmid_version            = Column(INTEGER, index = True)
 
@@ -737,7 +737,7 @@ def create_tables(db):
         Base.metadata.create_all(engine)
 
     except:
-        print "Can't create table"
+        print("Can't create table")
         raise
 
 

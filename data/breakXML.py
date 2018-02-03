@@ -54,7 +54,7 @@ if __name__=="__main__":
 				documentCounter += 1
 				
 			if nextFile:
-				outFileName = outDirectoryName + "medline_" + str(fileNumber) + ".xml"
+				outFileName = outDirectoryName + "medline_" + str('{:09d}'.format(fileNumber)) + ".xml"
 				outFileID = open(outFileName, 'w')
 				outFileID.write(XMLHeader)
 				documentCounter = 1

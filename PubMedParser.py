@@ -21,7 +21,7 @@ from sqlalchemy.orm import *
 from sqlalchemy import *
 from sqlalchemy.exc import *
 import gzip
-from multiprocessing import Pool
+from multiprocessing import Pool, Event
 
 
 WARNING_LEVEL = "always" #error, ignore, always, default, module, once
@@ -32,6 +32,8 @@ warnings.simplefilter(WARNING_LEVEL)
 
 #convert 3 letter code of months to digits for unique publication format
 month_code = {"Jan":"01","Feb":"02","Mar":"03","Apr":"04","May":"05","Jun":"06","Jul":"07","Aug":"08","Sep":"09","Oct":"10","Nov":"11","Dec":"12"}
+
+doneFiles = []
 
 class MedlineParser:
     #db is a global variable and given to MedlineParser(path,db) in _start_parser(path)
@@ -62,6 +64,7 @@ class MedlineParser:
 
         # get the root element
         event, root = context.next()
+        # event, root = context.__next__()
 
         DBCitation = PubMedDB.Citation()
         DBJournal = PubMedDB.Journal()
@@ -113,7 +116,7 @@ class MedlineParser:
                         # Manually deleting entries is possible (with PGAdmin3 or via command-line), e.g.:
                         # DELETE FROM pubmed.tbl_medline_citation WHERE pmid = 25005691;
                         if same_pmid:
-                            print "Article already in database - " + str(same_pmid[0]) + "Continuing with next PubMed-ID"
+                            print("Article already in database - " + str(same_pmid[0]) + "Continuing with next PubMed-ID")
                             DBCitation = PubMedDB.Citation()
                             DBJournal = PubMedDB.Journal()
                             elem.clear()
@@ -175,7 +178,7 @@ class MedlineParser:
                     if elem.find("Issue") != None:          DBJournal.issue = elem.find("Issue").text
 
                     #ensure pub_date_year with boolean year:
-                    year = False
+                    yearFound = False
                     for subelem in elem.find("PubDate"):
                         if subelem.tag == "MedlineDate":
                             if len(subelem.text) > 40:
@@ -183,7 +186,7 @@ class MedlineParser:
                             else:
                                 DBJournal.medline_date = subelem.text
                         elif subelem.tag == "Year":
-                            year = True
+                            yearFound = True
                             DBJournal.pub_date_year = subelem.text
                         elif subelem.tag == "Month":
                             if subelem.text in month_code:
@@ -193,13 +196,21 @@ class MedlineParser:
                         elif subelem.tag == "Day":
                             DBJournal.pub_date_day = subelem.text
 
-                    if not year:
+                    temp_year = ""
+                    if not yearFound:
                         try:
-                            temp_year = DBJournal.medline_date[0:4]
-                            DBJournal.pub_date_year = temp_year
-                        except:
-                            print _file, " not able to cast first 4 letters of medline_date ", temp_year
-                
+                            temp_year = int(DBJournal.medline_date[0:4])
+                            yearFound = True
+                        except ValueError:
+                            try:
+                                temp_year = int(DBJournal.medline_date[-4:])
+                                yearFound = True
+                            except:
+                                print(_file, " not able to cast first 4 letters of medline_date ", temp_year)                            
+
+                    if yearFound:
+                        DBJournal.pub_date_year = temp_year
+                            
                 
                 #if there is the attribute ArticleDate, month and day are given
                 if elem.tag == "ArticleDate":
@@ -588,9 +599,13 @@ def _start_parser(path):
     """
         Used to start MultiProcessor Parsing
     """
-    print path, '\tpid:', os.getpid()
+    # event = Event()
+    print(path, '\tpid:', os.getpid())
     p = MedlineParser(path,db)
+    doneFiles.append(path)
+    print(doneFiles)
     s = p._parse()
+    # event.wait(3)
     return path
 
 #uses global variable "db" because of result.get()
@@ -615,17 +630,23 @@ def run(medline_path, clean, start, end, PROCESSES):
     
 
     pool = Pool(processes=PROCESSES)    # start with processors
-    print "Initialized with ", PROCESSES, "processes"
+    print("Initialized with ", PROCESSES, "processes")
     #result.get() needs global variable db now - that is why a line "db = options.database" is added in "__main__" - the variable db cannot be given to __start_parser in map_async()
     result = pool.map_async(_start_parser, paths[start:end])
-    res = result.get()
+    try:
+        res = result.get()
+    except TypeError:
+        print(result, type(result))
+
+    print(len(paths), len(doneFiles))
+    
     #without multiprocessing:
     #for path in paths:
     #    _start_parser(path)
 
-    print "######################"
-    print "###### Finished ######"
-    print "######################"
+    print("######################")
+    print("###### Finished ######")
+    print("######################")
 
 
 if __name__ == "__main__":
@@ -659,5 +680,6 @@ if __name__ == "__main__":
     #end time programme 
     end = time.asctime()
 
-    print "programme started - " + start
-    print "programme ended - " + end
+    print("programme started - " + start)
+    print("programme ended - " + end)
+
