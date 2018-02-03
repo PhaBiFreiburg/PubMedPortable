@@ -637,7 +637,7 @@ class Grant(Base):
 
     id              = Column(Integer, primary_key=True)
     fk_pmid            = Column(INTEGER, nullable=False, index=True)
-    grantid         = Column(VARCHAR(200), index=True)
+    grantid         = Column(VARCHAR(300), index=True)
     acronym         = Column(VARCHAR(20))
     agency          = Column(VARCHAR(300))
     country          = Column(VARCHAR(200))

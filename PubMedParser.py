@@ -293,7 +293,7 @@ class MedlineParser:
                         if investigator.find("Initials") != None:
                             DBInvestigator.initials = investigator.find("Initials").text
                         if investigator.find("Suffix") != None:
-                            DBInvestigator.suffix = investigator.find("Suffix").text
+                            DBInvestigator.suffix = investigator.find("Suffix").text[0:16] + "..."
                         if investigator.find("Affiliation") != None:
                             DBInvestigator.investigator_affiliation = investigator.find("Affiliation").text
 
@@ -626,7 +626,7 @@ def run(medline_path, clean, start, end, PROCESSES):
     paths.sort()
     
     numberOfFiles = len(paths)
-    numberOfFileChunks = 6
+    numberOfFileChunks = 12
     numberOfBlocks = int(numberOfFiles / numberOfFileChunks)
 
     restFiles = numberOfFiles % numberOfFileChunks
