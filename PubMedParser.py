@@ -423,19 +423,21 @@ class MedlineParser:
 
                     for databank in elem:
                         DBDataBank = PubMedDB.DataBank()
-                        DBDataBank.data_bank_name = databank.find("DataBankName").text
-                        DBCitation.databanks.append(DBDataBank)
+                        if databank.find("DataBankName").text != None:
+                            DBDataBank.data_bank_name = databank.find("DataBankName").text
+                            DBCitation.databanks.append(DBDataBank)
 
-                        acc_numbers = databank.find("AccessionNumberList")
-                        if acc_numbers != None:
-                            acc_numbers_duplicity = []
-                            for acc_number in acc_numbers:
-                                if acc_number.text not in acc_numbers_duplicity:
-                                    DBAccession = PubMedDB.Accession()
-                                    DBAccession.data_bank_name = DBDataBank.data_bank_name
-                                    DBAccession.accession_number = acc_number.text
-                                    DBCitation.accessions.append(DBAccession)
-                                    acc_numbers_duplicity.append(acc_number.text)
+                            acc_numbers = databank.find("AccessionNumberList")
+                            if acc_numbers != None:
+                                acc_numbers_duplicity = []
+                                for acc_number in acc_numbers:
+                                    if acc_number.text not in acc_numbers_duplicity:
+                                        DBAccession = PubMedDB.Accession()
+                                        if DBDataBank.data_bank_name != None:
+                                            DBAccession.data_bank_name = DBDataBank.data_bank_name
+                                            DBAccession.accession_number = acc_number.text
+                                            DBCitation.accessions.append(DBAccession)
+                                            acc_numbers_duplicity.append(acc_number.text)
 
                 if elem.tag == "Language":
                     DBLanguage = PubMedDB.Language()
