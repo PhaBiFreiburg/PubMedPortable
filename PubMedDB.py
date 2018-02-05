@@ -260,7 +260,7 @@ class Comment(Base):
 
     id                      = Column(Integer, primary_key=True)
     fk_pmid                 = Column(INTEGER, nullable=False, index = True)
-    ref_type                = Column(VARCHAR(40), nullable=False)
+    ref_type                = Column(VARCHAR(21), nullable=False)
     ref_source              = Column(VARCHAR(255), nullable=False)
     pmid_version            = Column(INTEGER, index = True)
 
@@ -637,9 +637,9 @@ class Grant(Base):
 
     id              = Column(Integer, primary_key=True)
     fk_pmid            = Column(INTEGER, nullable=False, index=True)
-    grantid         = Column(VARCHAR(300), index=True)
+    grantid         = Column(VARCHAR(200), index=True)
     acronym         = Column(VARCHAR(20))
-    agency          = Column(VARCHAR(300))
+    agency          = Column(VARCHAR(200))
     country          = Column(VARCHAR(200))
 
     def __init__(self):

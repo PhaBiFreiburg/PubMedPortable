@@ -199,10 +199,12 @@ class MedlineParser:
                     temp_year = ""
                     if not yearFound:
                         try:
+                            # try to cast year from beginning of MedlineDate string
                             temp_year = int(DBJournal.medline_date[0:4])
                             yearFound = True
                         except ValueError:
                             try:
+                                # try to cast year from end of MedlineDate string
                                 temp_year = int(DBJournal.medline_date[-4:])
                                 yearFound = True
                             except:
@@ -210,7 +212,6 @@ class MedlineParser:
                         if yearFound:
                             DBJournal.pub_date_year = temp_year
                             
-                
                 #if there is the attribute ArticleDate, month and day are given
                 if elem.tag == "ArticleDate":
                     DBJournal.pub_date_year = elem.find("Year").text
@@ -228,7 +229,11 @@ class MedlineParser:
                         DBJournal.iso_abbreviation = elem.find("ISOAbbreviation").text
 
                 if elem.tag == "ArticleTitle" or elem.tag == "BookTitle":
-                    DBCitation.article_title = elem.text
+                    if elem.text != None:
+                        DBCitation.article_title = elem.text
+                    # add string because of not null constraint
+                    else:
+                        DBCitation.article_title = "No title"
                 if elem.tag == "MedlinePgn":
                     DBCitation.medline_pgn = elem.text
 
@@ -245,20 +250,26 @@ class MedlineParser:
 
                         if author.find("LastName") != None:
                             DBAuthor.last_name = author.find("LastName").text
-                        # Forname is restricted to max 99 characters, but it seems like the None query did not always work - try-except-block
-                        try:
-                            if author.find("ForeName") != None and not len(author.find("ForeName").text) > 100:
-                                DBAuthor.fore_name = author.find("ForeName").text
-                            elif author.find("ForeName") != None and len(author.find("ForeName").text) > 100:
+
+                        # Forname is restricted to 100 characters
+                        if author.find("ForeName") != None and author.find("ForeName").text != None:
+                            temp_forname = author.find("ForeName").text
+                            if len(temp_forname) < 100:
+                                DBAuthor.fore_name = temp_forname
+                            else:
                                 DBAuthor.fore_name = author.find("ForeName").text[0:97] + "..."
-                        except:
-                            pass
+
                         if author.find("Initials") != None:
                             DBAuthor.initials = author.find("Initials").text
-                        if author.find("Suffix") != None and not len(author.find("Suffix").text) > 20:
-                            DBAuthor.suffix = author.find("Suffix").text
-                        elif author.find("Suffix") != None and len(author.find("Suffix").text) > 20:
-                            DBAuthor.suffix = author.find("Suffix").text[0:17] + "..."
+
+                        # Suffix is restricted to 20 characters
+                        if author.find("Suffix") != None and author.find("Suffix").text != None:
+                            temp_suffix = author.find("Suffix").text
+                            if len(temp_suffix)  < 20:
+                                DBAuthor.suffix = temp_suffix
+                            else:
+                                DBAuthor.suffix = temp_suffix[0:17] + "..."
+
                         if author.find("CollectiveName") != None:
                             DBAuthor.collective_name = author.find("CollectiveName").text
 
@@ -288,12 +299,21 @@ class MedlineParser:
 
                         if investigator.find("LastName") != None:
                             DBInvestigator.last_name = investigator.find("LastName").text
+
                         if investigator.find("ForeName") != None:
                             DBInvestigator.fore_name = investigator.find("ForeName").text
+
                         if investigator.find("Initials") != None:
                             DBInvestigator.initials = investigator.find("Initials").text
+
                         if investigator.find("Suffix") != None:
-                            DBInvestigator.suffix = investigator.find("Suffix").text[0:16] + "..."
+                            temp_suffix = investigator.find("Suffix").text
+                            # suffix is restricted to 20 characters
+                            if len(temp_suffix) < 20:
+                                DBInvestigator.suffix = temp_suffix
+                            else:
+                                DBInvestigator.suffix = temp_suffix[:17] + '...'
+
                         if investigator.find("Affiliation") != None:
                             DBInvestigator.investigator_affiliation = investigator.find("Affiliation").text
 
@@ -335,17 +355,29 @@ class MedlineParser:
                         DBCitation.gene_symbols.append(DBGeneSymbol)
 
                 if elem.tag == "CommentsCorrectionsList":
+
                     DBCitation.comments = []
                     for comment in elem:
                         DBComment = PubMedDB.Comment()
-                        DBComment.ref_type = comment.attrib['RefType']
+                        comment_ref_type = comment.attrib['RefType']
                         comment_ref_source = comment.find('RefSource')
-                        if comment_ref_source != None:
+
+                        if comment_ref_source != None and comment_ref_source.text != None:
                             if len(comment_ref_source.text) < 255:
                                 DBComment.ref_source = comment_ref_source.text
                             else:
-                                DBComment.ref_source = comment_ref_source.text[0:251] + "..."                            
+                                DBComment.ref_source = comment_ref_source.text[0:251] + "..."
+                        # add string because of not null constraint
+                        else:
+                            DBComment.ref_source = "No reference source"
+
+                        if comment_ref_type != None:
+                            if len(comment_ref_type) < 22:
+                                DBComment.ref_type = comment_ref_type
+                            else:
+                                DBComment.ref_type = comment_ref_type[0:18] + "..."
                         comment_pmid_version = comment.find('PMID')
+
                         if comment_pmid_version != None:
                             DBComment.pmid_version = comment_pmid_version.text
                         DBCitation.comments.append(DBComment)
@@ -402,14 +434,28 @@ class MedlineParser:
                     for grant in elem:
                         DBGrants = PubMedDB.Grant()
 
-                        if grant.find("GrantID") != None:
-                            DBGrants.grantid = grant.find("GrantID").text
+                        # grantid is restricted to 200 characters
+                        if grant.find("GrantID") != None and grant.find("GrantID").text != None:
+                            temp_grantid = grant.find("GrantID").text
+                            if len(temp_grantid) < 200:
+                                DBGrants.grantid = temp_grantid
+                            else:
+                                DBGrants.grantid = temp_grantid[0:197] + "..."
+
                         if grant.find("Acronym") != None:
                             DBGrants.acronym = grant.find("Acronym").text
-                        if grant.find("Agency") != None:
-                            DBGrants.agency = grant.find("Agency").text
+
+                        # agency is restricted to 200 characters
+                        if grant.find("Agency") != None and grant.find("Agency").text != None:
+                            temp_agency = grant.find("Agency").text
+                            if len(temp_agency) < 200:
+                                DBGrants.agency = temp_agency
+                            else:
+                                DBGrants.agency = temp_agency[0:197] + "..."
+
                         if grant.find("Country") != None:
                             DBGrants.country = grant.find("Country").text
+
                         DBCitation.grants.append(DBGrants)
 
                 if elem.tag == "DataBankList":
@@ -421,33 +467,30 @@ class MedlineParser:
                     DBCitation.accessions = []
                     DBCitation.databanks = []
 
-                    dataBankNameDuplicity = []
+                    all_databanks = []
+                    all_acc_numbers = {}
+
                     for databank in elem:
-                        DBDataBank = PubMedDB.DataBank()
-                        if databank.find("DataBankName").text != None:
-                            data_bank_name = databank.find("DataBankName").text
-                            if data_bank_name not in dataBankNameDuplicity:
-                                DBDataBank.data_bank_name = data_bank_name
-                                dataBankNameDuplicity.append(data_bank_name)
-                                DBCitation.databanks.append(DBDataBank)
+                        temp_databank_name = databank.find("DataBankName").text
+                        # check unique data_bank_name per PubMed ID and not null
+                        if temp_databank_name != None and not temp_databank_name in all_databanks:
+                            DBDataBank = PubMedDB.DataBank()
+                            DBDataBank.data_bank_name = temp_databank_name
+                            DBCitation.databanks.append(DBDataBank)
+                            all_databanks.append(temp_databank_name)
+                            all_acc_numbers[temp_databank_name] = []
 
-                            else:
-                                for entry in DBCitation.databanks:
-                                    if entry.data_bank_name == data_bank_name:
-                                        DBDataBank = entry
+                        acc_numbers = databank.find("AccessionNumberList")
 
-                            acc_numbers = databank.find("AccessionNumberList")
-                            if acc_numbers != None:
-                                    acc_numbers_duplicity = []
-                                    for acc_number in acc_numbers:
-                                        if acc_number.text not in acc_numbers_duplicity:
-                                            DBAccession = PubMedDB.Accession()
-                                            DBAccession.data_bank_name = DBDataBank.data_bank_name
-                                            DBAccession.accession_number = acc_number.text
-                                            DBCitation.accessions.append(DBAccession)
-                                            acc_numbers_duplicity.append(acc_number.text)
-
-
+                        if acc_numbers != None and temp_databank_name != None:
+                            for acc_number in acc_numbers:
+                                # check unique accession number per PubMed ID and data_bank_name
+                                if not acc_number.text in all_acc_numbers[temp_databank_name]:
+                                    DBAccession = PubMedDB.Accession()
+                                    DBAccession.data_bank_name = DBDataBank.data_bank_name
+                                    DBAccession.accession_number = acc_number.text
+                                    DBCitation.accessions.append(DBAccession)
+                                    all_acc_numbers[temp_databank_name].append(acc_number.text)
 
                 if elem.tag == "Language":
                     DBLanguage = PubMedDB.Language()
@@ -456,13 +499,14 @@ class MedlineParser:
 
                 if elem.tag == "PublicationTypeList":
                     DBCitation.publication_types = []
-                    publicationTypeDuplicity = []
+                    allPublicationTypes = []
                     for subelem in elem:
                         publication_type = subelem.text
-                        if publication_type not in publicationTypeDuplicity:
+                        # check for unique elements in PublicationTypeList
+                        if publication_type not in allPublicationTypes:
                             DBPublicationType = PubMedDB.PublicationType()
                             DBPublicationType.publication_type = subelem.text
-                            publicationTypeDuplicity.append(publication_type)
+                            allPublicationTypes.append(publication_type)
                             DBCitation.publication_types.append(DBPublicationType)
 
                 if elem.tag == "Article":
@@ -576,7 +620,10 @@ class MedlineParser:
                             DBKeyword.keyword_major_yn = subelem.attrib["MajorTopicYN"]
                         except:
                             pass
-                        DBCitation.keywords.append(DBKeyword)
+
+                        # null check for keyword
+                        if not DBKeyword.keyword == None:
+                            DBCitation.keywords.append(DBKeyword)
 
                 if elem.tag == "Affiliation":
                     if len(elem.text) < 2000:
@@ -668,7 +715,7 @@ def run(medline_path, clean, start, end, PROCESSES):
         except TypeError:
             print(result, type(result))
 
-        time.sleep(3)
+        time.sleep(1)
 
         
     if restFilesExist:
