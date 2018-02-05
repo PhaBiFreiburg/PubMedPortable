@@ -421,23 +421,33 @@ class MedlineParser:
                     DBCitation.accessions = []
                     DBCitation.databanks = []
 
+                    dataBankNameDuplicity = []
                     for databank in elem:
                         DBDataBank = PubMedDB.DataBank()
                         if databank.find("DataBankName").text != None:
-                            DBDataBank.data_bank_name = databank.find("DataBankName").text
-                            DBCitation.databanks.append(DBDataBank)
+                            data_bank_name = databank.find("DataBankName").text
+                            if data_bank_name not in dataBankNameDuplicity:
+                                DBDataBank.data_bank_name = data_bank_name
+                                dataBankNameDuplicity.append(data_bank_name)
+                                DBCitation.databanks.append(DBDataBank)
+
+                            else:
+                                for entry in DBCitation.databanks:
+                                    if entry.data_bank_name == data_bank_name:
+                                        DBDataBank = entry
 
                             acc_numbers = databank.find("AccessionNumberList")
                             if acc_numbers != None:
-                                acc_numbers_duplicity = []
-                                for acc_number in acc_numbers:
-                                    if acc_number.text not in acc_numbers_duplicity:
-                                        DBAccession = PubMedDB.Accession()
-                                        if DBDataBank.data_bank_name != None:
+                                    acc_numbers_duplicity = []
+                                    for acc_number in acc_numbers:
+                                        if acc_number.text not in acc_numbers_duplicity:
+                                            DBAccession = PubMedDB.Accession()
                                             DBAccession.data_bank_name = DBDataBank.data_bank_name
                                             DBAccession.accession_number = acc_number.text
                                             DBCitation.accessions.append(DBAccession)
                                             acc_numbers_duplicity.append(acc_number.text)
+
+
 
                 if elem.tag == "Language":
                     DBLanguage = PubMedDB.Language()
@@ -446,10 +456,14 @@ class MedlineParser:
 
                 if elem.tag == "PublicationTypeList":
                     DBCitation.publication_types = []
+                    publicationTypeDuplicity = []
                     for subelem in elem:
-                        DBPublicationType = PubMedDB.PublicationType()
-                        DBPublicationType.publication_type = subelem.text
-                        DBCitation.publication_types.append(DBPublicationType)
+                        publication_type = subelem.text
+                        if publication_type not in publicationTypeDuplicity:
+                            DBPublicationType = PubMedDB.PublicationType()
+                            DBPublicationType.publication_type = subelem.text
+                            publicationTypeDuplicity.append(publication_type)
+                            DBCitation.publication_types.append(DBPublicationType)
 
                 if elem.tag == "Article":
                     #ToDo
@@ -628,7 +642,7 @@ def run(medline_path, clean, start, end, PROCESSES):
     paths.sort()
     
     numberOfFiles = len(paths)
-    numberOfFileChunks = 12
+    numberOfFileChunks = 8
     numberOfBlocks = int(numberOfFiles / numberOfFileChunks)
 
     restFiles = numberOfFiles % numberOfFileChunks
@@ -654,7 +668,7 @@ def run(medline_path, clean, start, end, PROCESSES):
         except TypeError:
             print(result, type(result))
 
-        time.sleep(5)
+        time.sleep(3)
 
         
     if restFilesExist:
