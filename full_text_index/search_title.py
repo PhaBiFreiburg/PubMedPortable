@@ -54,6 +54,7 @@ if __name__=="__main__":
 	parser.add_option("-p", "--xapian_database_path", dest="xapian_database_path", help="Specify the path to the Xapian full text index.", default="xapian/xapian2018")
 	parser.add_option("-q", "--querystring", dest="q", help="Supply the query to queried", default="pancreatic")
 	parser.add_option("-r", "--results_html_name", dest="r", help="name of the results html file (default: Xapian_query_results.html)", default = "Xapian_query_results.html")
+	parser.add_option("-n", "--number_of_results", dest="n", help="number of results that have to be yielded into specified html file (default: 1000)", default = "1000")	
 
 	(options, args) = parser.parse_args()
 
@@ -69,8 +70,6 @@ if __name__=="__main__":
 
 	#save all machting documents in "results" (starting with rank 0 - check help documentation of function "search")
 	results = searchConn.search(q, 0, searchConn.get_doccount())
-
-	print "number of matches: ", results.matches_estimated
 
 	### debug: ###
 	#print first 5 titles with highlight function and save first 1000 titles in an HTML file
@@ -111,12 +110,15 @@ if __name__=="__main__":
 
 	#write header
 	outfile.write(start_string)
-	print "### save first 1000 hits in Xapian_query_results.html ###"
+	if int(options.n) > results.matches_estimated:
+		print "### Saved first ", results.matches_estimated, "hits of ", results.matches_estimated, " matches in file ", options.r, "###"	
+	else:
+		print "### Saved first ", options.n, "hits of ", results.matches_estimated, " matches in file ", options.r, "###"
 	#write the first 1000 PubMed-IDs and titles with term "pancreatic" or stem "pancreat"
 	for index,result in enumerate(results):
-			outfile.write("<tr><td>" + str(index) + "</td><td>" + result.id + "</td><td>" + results.get_hit(index).highlight('title')[0] +"</td></tr>")
-			if index == 999:
-				break
+		outfile.write("<tr><td>" + str(index) + "</td><td>" + result.id + "</td><td>" + results.get_hit(index).highlight('title')[0] +"</td></tr>")
+		if index == (int(options.n) - 1):
+			break
 
 	#write string for finishing HTML document
 	outfile.write(end_string)
