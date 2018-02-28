@@ -104,3 +104,19 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+full_text_index/xapian/xapian2016/
+full_text_index/xapian/xapian2018/
+
+# ignorable results files, they are available under results_from_documentation folder
+full_text_index/results/counts_results.csv
+full_text_index/results/pmids_results.csv
+full_text_index/results/results.csv
+
+#For title text index all the data is ignored
+full_text_index_title_text/RunXapian.py
+full_text_index_title_text/SynonymParser.py
+full_text_index_title_text/results/
+full_text_index_title_text/summary.py
+full_text_index_title_text/synonyms/
+full_text_index_title_text/xapian/

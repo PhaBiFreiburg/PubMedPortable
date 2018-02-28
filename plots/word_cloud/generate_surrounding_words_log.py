@@ -1,10 +1,44 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
-"""
-    Copyright (c) 2015, Kersten Doering <kersten.doering@gmail.com>
+#!/usr/bin/env python
+# -*- coding: UTF-8 -*-
 
-    This script connects to a PostgreSQL database and selects all abstracts that contain the term "gemcitabine". It splits the texts into single words with a whitespace tokenizer and saves the 50 most frequently occurring terms in CSV file. The path to the PubMedPortable directory containing the scripts for generating the Xapian full text index has to be given, because all important files are located there by default, although the Xapian index itself is not used. The modified version only indexing PubMed abstract titles and texts can be used as well as the standard full text index version.
-"""
+# Copyright (c) 2018, Kersten Doering, Bjoern Gruening, Kiran Telukunta
+# 
+# All rights reserved.
+# 
+# Redistribution and use in source and binary forms, with or without modification,
+# are permitted provided that the following conditions are met:
+# 
+#     * Redistributions of source code must retain the above copyright notice,
+#       this list of conditions and the following disclaimer.
+#     * Redistributions in binary form must reproduce the above copyright notice,
+#       this list of conditions and the following disclaimer in the documentation
+#       and/or other materials provided with the distribution.
+#     * Neither the name of PubMedPortable nor the names of its contributors
+#       may be used to endorse or promote products derived from this software
+#       without specific prior written permission.
+# 
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+# "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+# LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+# A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+# CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+# EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+# PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+# PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+# LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+# NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+# SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+#======================================================================================================
+#title          :generate_surrounding_words_log.py
+#description    :Generates the surrounding words log for the given search term
+#author         :Kersten Doering, Bjoern Gruening, Kiran Telukunta
+#email          :kersten.doering@gmail.com, bjoern.gruening@gmail.com, kiran.telukunta@indiayouth.info
+#date           :28-Feb-2018
+#usage          :python generate_surrounding_words_log.py
+#=====================================================================================================
 
 #Kersten Doering 29.11.2014, major change 03.02.2015
 
@@ -54,6 +88,7 @@ if __name__=="__main__":
     parser.add_option("-p", "--pmids_input", dest="p", help='name of the input file that contains all PubMed-IDs for the search term', default="results/results.csv")
     parser.add_option("-t", "--terms_input", dest="t", help='name of the input file that contains all search terms that should not be written to the output file', default="synonyms/pancreatic_cancer.txt")
     parser.add_option("-s", "--stop_words_input", dest="s", help='name of the input file with all stop words that should not be written to the output file', default="blacklist/stop_words.txt")
+    parser.add_option("-a", "--search_term", dest="a", help='search term for which most frequently co-occurring words in texts', default="Gemcitabine")
     parser.add_option("-o", "--output", dest="o", help='name of the output file with the most frequently co-occurring words in texts that contain the search term gemcitabine', default="counts_surrounding_words_log.csv")
     (options, args) = parser.parse_args()
 
@@ -72,13 +107,14 @@ if __name__=="__main__":
     stop_words_input    = options.s
     output              = options.o
     xapian_path         = options.x
+    search_term         = options.a
 
     # results from RunXapian.py - save  PubMed-IDs in list pmids:
     pmids = []
     infile = open(os.path.join(xapian_path, pmids_input),"r")
     for line in infile:
         temp_line = line.strip().split("\t")
-        if temp_line[1] == "Gemcitabine":
+        if temp_line[1] == search_term:
             pmids.append(temp_line[0])
     infile.close()
     # make list unique:
