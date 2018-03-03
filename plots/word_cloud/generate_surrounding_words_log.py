@@ -1,8 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
-#!/usr/bin/env python
-# -*- coding: UTF-8 -*-
-
 # Copyright (c) 2018, Kersten Doering, Bjoern Gruening, Kiran Telukunta
 # 
 # All rights reserved.
