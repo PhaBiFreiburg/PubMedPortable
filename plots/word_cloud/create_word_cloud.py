@@ -67,6 +67,8 @@ if __name__=="__main__":
 		if options.v:
 			ignoreValueSpecified = True
 			ignoreValue = int(options.v)
+		else:
+			ignoreValueSpecified = False
 
 		# save terms from CSV file in a list and convert their Floats to Integeters
 		infile = open(input_file,"r")
