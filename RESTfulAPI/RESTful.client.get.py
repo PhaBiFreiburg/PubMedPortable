@@ -110,7 +110,7 @@ fh = open(inputFile)
 outPutFH = open(outPutFile, 'w')
 
 downloadProgress = ProgressBar(612508, fmt=ProgressBar.FULL)
-skipLines = 46671
+skipLines = 51819
 
 for pmid in fh:
 	#Submit
@@ -128,6 +128,11 @@ for pmid in fh:
 		downloadProgress.current += 1
 		downloadProgress()
 	except urllib2.HTTPError:
+		print("Failed due to HTTPError will sleep for 2 min.")
 		time.sleep(120)
+		continue
+	except:
+		print("Failed due to unknown error will sleep for 5 min.")
+		time.sleep(300)
 		continue
 downloadProgress.done()

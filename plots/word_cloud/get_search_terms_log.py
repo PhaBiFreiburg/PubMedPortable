@@ -30,6 +30,7 @@ if __name__=="__main__":
     output_file = options.o
     xapian_path = options.x
     number = options.n 
+    scaleFactor = options.s
 
     # save the first 150 (default number) terms in a CSV file
     infile = open(os.path.join(xapian_path,input_file),"r")
@@ -40,7 +41,7 @@ if __name__=="__main__":
             break
         temp = line.strip().split("\t")
         #multiply the log value with 10 to receive a more precise scaling
-        outfile.write(str(temp[0])+"\t"+str(int(math.log(float(temp[1]),10)*10))+"\n")
+        outfile.write(str(temp[0])+"\t"+str(int(math.log(float(temp[1]),10)*scaleFactor))+"\n")
         counter += 1
     outfile.close()
     infile.close()
