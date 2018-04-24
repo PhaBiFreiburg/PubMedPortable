@@ -30,7 +30,7 @@ if __name__=="__main__":
     output_file = options.o
     xapian_path = options.x
     number = options.n 
-    scaleFactor = options.s
+    scaleFactor = int(options.s)
 
     # save the first 150 (default number) terms in a CSV file
     infile = open(os.path.join(xapian_path,input_file),"r")
