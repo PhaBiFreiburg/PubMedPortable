@@ -51,7 +51,7 @@ if __name__=="__main__":
 	parser = OptionParser()
 	parser.add_option("-i", "--input", dest="i", help='name of the input file that contains the logarithmic frequencies of each search term, e.g. "counts_surrounding_words_log.csv" or "counts_search_terms_log.csv"')
 	parser.add_option("-o", "--output", dest="o", help='name of the output file which contains the word cloud, e.g. "cloud_surrounding_words.png" or "cloud_search_terms.png"')
-	parser.add_option("-v", "--ignore_values", dest="v", help='Ignore values which are lesser than specified value, e.g. 0, which will ignore all terms with 0 log value')
+	parser.add_option("-v", "--ignore_values", dest="v", help='Ignore values which are lesser than specified value, e.g. 0, which will ignore all terms with 0 or less than 0 log value')
 	(options, args) = parser.parse_args()
 
 	# no defaults set, show help message if no file names are given
@@ -82,6 +82,34 @@ if __name__=="__main__":
 
 		# generate colour and size parameters for each term
 		mtags = make_tags(tag_list)
-		create_tag_image(mtags, output_file,size=(900, 600),background=(255, 255, 255, 255))
+
+		nameCounter = 0
+
+
+		nameCounter += 1 
+		output_file = output_file[:-4] + '_' + str(nameCounter) + output_file[-4:]
+		create_tag_image(mtags, output_file,size=(900, 600),background=(255, 255, 255, 255), fontname='Cuprum')
+		
+		nameCounter += 1 
+		output_file = output_file[:-4] + '_' + str(nameCounter) + output_file[-4:]
+		create_tag_image(mtags, output_file,size=(900, 600),background=(255, 255, 255, 255), fontname='Inconsolata')
+		
+		nameCounter += 1 
+		output_file = output_file[:-4] + '_' + str(nameCounter) + output_file[-4:]
+		create_tag_image(mtags, output_file,size=(900, 600),background=(255, 255, 255, 255), fontname='Lobster')
+		
+		
+		nameCounter += 1 
+		output_file = output_file[:-4] + '_' + str(nameCounter) + output_file[-4:]
+		create_tag_image(mtags, output_file,size=(900, 600),background=(255, 255, 255, 255), fontname='Neucha')
+		
+		nameCounter += 1 
+		output_file = output_file[:-4] + '_' + str(nameCounter) + output_file[-4:]
+		create_tag_image(mtags, output_file,size=(900, 600),background=(255, 255, 255, 255), fontname='Neuton')
+		
+		nameCounter += 1 
+		output_file = output_file[:-4] + '_' + str(nameCounter) + output_file[-4:]
+		create_tag_image(mtags, output_file,size=(900, 600),background=(255, 255, 255, 255), fontname='Philosopher')
+		
 		infile.close()
 
