@@ -110,7 +110,7 @@ fh = open(inputFile)
 outPutFH = open(outPutFile, 'w')
 
 downloadProgress = ProgressBar(612508, fmt=ProgressBar.FULL)
-skipLines = 4356
+skipLines = 46671
 
 for pmid in fh:
 	#Submit
@@ -118,8 +118,9 @@ for pmid in fh:
 		next(fh)
 		downloadProgress.current += 1
 		downloadProgress()
+		continue
 
-	pmid=pmid.rstrip('\r\n')
+	pmid = pmid.rstrip('\r\n')
 	url_Submit = "https://www.ncbi.nlm.nih.gov/CBBresearch/Lu/Demo/RESTful/tmTool.cgi/" + bioconcept + "/" + pmid + "/" + format + "/"
 	try:
 		urllib_result = urllib2.urlopen(url_Submit)

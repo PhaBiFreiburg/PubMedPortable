@@ -88,28 +88,28 @@ if __name__=="__main__":
 
 		nameCounter += 1 
 		output_file = output_file[:-4] + '_' + str(nameCounter) + output_file[-4:]
-		create_tag_image(mtags, output_file,size=(900, 600),background=(255, 255, 255, 255), fontname='Cuprum')
+		create_tag_image(mtags, output_file,size=(1800, 1300),background=(255, 255, 255, 255), fontname='Cuprum')
 		
 		nameCounter += 1 
-		output_file = output_file[:-4] + '_' + str(nameCounter) + output_file[-4:]
-		create_tag_image(mtags, output_file,size=(900, 600),background=(255, 255, 255, 255), fontname='Inconsolata')
+		output_file = output_file.replace(str(nameCounter-1),str(nameCounter))
+		create_tag_image(mtags, output_file,size=(1800, 1300),background=(255, 255, 255, 255), fontname='Inconsolata')
 		
 		nameCounter += 1 
-		output_file = output_file[:-4] + '_' + str(nameCounter) + output_file[-4:]
-		create_tag_image(mtags, output_file,size=(900, 600),background=(255, 255, 255, 255), fontname='Lobster')
+		output_file = output_file.replace(str(nameCounter-1),str(nameCounter))
+		create_tag_image(mtags, output_file,size=(1800, 1300),background=(255, 255, 255, 255), fontname='Lobster')
 		
 		
 		nameCounter += 1 
-		output_file = output_file[:-4] + '_' + str(nameCounter) + output_file[-4:]
-		create_tag_image(mtags, output_file,size=(900, 600),background=(255, 255, 255, 255), fontname='Neucha')
+		output_file = output_file.replace(str(nameCounter-1),str(nameCounter))
+		create_tag_image(mtags, output_file,size=(1800, 1300),background=(255, 255, 255, 255), fontname='Neucha')
 		
 		nameCounter += 1 
-		output_file = output_file[:-4] + '_' + str(nameCounter) + output_file[-4:]
-		create_tag_image(mtags, output_file,size=(900, 600),background=(255, 255, 255, 255), fontname='Neuton')
+		output_file = output_file.replace(str(nameCounter-1),str(nameCounter))
+		create_tag_image(mtags, output_file,size=(1800, 1300),background=(255, 255, 255, 255), fontname='Neuton')
 		
 		nameCounter += 1 
-		output_file = output_file[:-4] + '_' + str(nameCounter) + output_file[-4:]
-		create_tag_image(mtags, output_file,size=(900, 600),background=(255, 255, 255, 255), fontname='Philosopher')
+		output_file = output_file.replace(str(nameCounter-1),str(nameCounter))
+		create_tag_image(mtags, output_file,size=(1800, 1300),background=(255, 255, 255, 255), fontname='Philosopher')
 		
 		infile.close()
 
