@@ -22,6 +22,7 @@ if __name__=="__main__":
     parser.add_option("-i", "--input", dest="i", help='name of the input file that contains the frequencies of each search term', default="results/counts_results.csv")
     parser.add_option("-o", "--output", dest="o", help='name of the output file with logarithmic frequencies', default="counts_search_terms_log.csv")
     parser.add_option("-n", "--number", dest="n", help='number of lines (default: 150)',default=150)
+    parser.add_option("-s", "--scale", dest="s", help='logarithmic scaling factor (default: 10)',default=10)
     (options, args) = parser.parse_args()
 
     # save file names in an extra variable

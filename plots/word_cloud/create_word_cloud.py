@@ -81,13 +81,16 @@ if __name__=="__main__":
 			tag_list.append((temp_line[0],(int(float(temp_line[1])))))
 
 		# generate colour and size parameters for each term
-		mtags = make_tags(tag_list)
+		mtags = make_tags(tag_list, maxsize=40)
 
 		nameCounter = 0
 
-
 		nameCounter += 1 
 		output_file = output_file[:-4] + '_' + str(nameCounter) + output_file[-4:]
+		create_tag_image(mtags, output_file,size=(1800, 1300),background=(255, 255, 255, 255))
+
+		nameCounter += 1 
+		output_file = output_file.replace(str(nameCounter-1),str(nameCounter))
 		create_tag_image(mtags, output_file,size=(1800, 1300),background=(255, 255, 255, 255), fontname='Cuprum')
 		
 		nameCounter += 1 
