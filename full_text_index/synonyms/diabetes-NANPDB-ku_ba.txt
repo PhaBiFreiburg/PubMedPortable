@@ -1,0 +1,199 @@
+(-)-5-hydroxydeltoin
+(-)-5-hydroxyprantschimgin
+(-)-deltoin
+(-)-prantschimgin
+(2S,4S,3E)-methyl 3-ethylidene-4-{2-[2-(4-hydroxyphenyl)ethyl]oxy-2-oxoethyl}-2-[(6-O-beta-D-glucopyranosyl-beta-d-glucopyranosyl)oxy]-3,4-dihydro-2H-pyran-5-carboxylate
+(Z,E)-alpha-farnesene
+1,5,8-trihydroxy-3,6,7-trimethoxyxanthone
+1,5-dihydroxy-3-methoxyxanthone
+1,6-dihydroxy-3,5-dimethoxyxanthone
+1,8-dihydroxy-3,5-dimethoxyxanthone
+1,8-dihydroxy-3,6-dimethoxyxanthone
+1-hydroxy-3,5,6,7,8-pentamethoxyxanthone
+1-hydroxy-3,5,8-trimethoxyxanthone
+1-hydroxy-5-methoxy-3-methyl-9,10 dihydroanthracene 9,10-dione
+11-hydroxyswietephragmin B
+14,15-dihydroajugapitin
+2,4',6-trihydroxy-4-methoxybenzophenone-2-O-beta-D-glucopyranoside
+2,8-dihydroxy-6-(hydroxymethyl)-1-methoxyanthracene -9,10-dione
+2,8-dihydroxy-6-(hydroxymethyl)-1-methoxyanthracene-9,10-dione
+2-hydroxy-3-O-tigloylswietenolide
+2-hydroxy-6-deacetoxyswietenine
+2-hydroxyswietenin
+2-hydroxyswietenine
+3,4-dihydroxybenzoic anhydride
+3-O-[(2,3,4-triacetyl-alpha-L-rhamnopyranosyl)-(1→6)]-3-acetyl-beta-D-galactopyranoside
+3-O-[(2,3,4-triacetyl-alpha-L-rhamnopyranosyl)-(1→6)]-beta-D-galactopyranoside
+3-O-galloyl quinic acid
+3-O-tigloylswietenolide
+5-hydroxyaspastipuline
+6'-hydroxy-beta-cycloauraptene
+6-O-acetyl-2-hydroxyswietenin
+6-O-deacetylsecomahoganin
+7-deacetoxy-7-oxogedunin
+7-geranyloxycoumarin
+aloe-emodin
+aloin A
+aloin B
+alpha-amyrin
+alpha-cadinol
+alpha-cedrene
+alpha-copaene
+alpha-cubebene
+alpha-farnesene
+alpha-humulene
+alpha-muurolene
+alpha-phellandrene
+alpha-pinene
+alpha-terpinene
+alpha-thujene
+alpha-trans-bergamotene
+amentoflavone
+arbutoside
+asparagalin A
+Asparagus saponin 1
+aspastipuline
+auraptene
+azaleatin
+bassiatin
+berberine
+beta-amyrin
+beta-amyrin acetate
+beta-bourbonene
+beta-caryophyllene
+beta-cubebene
+beta-elemene
+beta-eudesmol
+beta-farnesene
+beta-myrcene
+beta-pinene
+beta-sitosterol
+beta-sitosterol glycoside
+beta-trans-ocimene
+bicyclogermacrene
+borneol
+bornyl acetate
+caffeic acid
+camphene
+camphor
+caratuberside C
+caratuberside D
+caratuberside E
+caratuberside F
+caratuberside G
+carvacrol
+caryatin
+caryatin-3'-methyl ether
+caryatin-3'-methyl ether-7-O-beta-D-glucoside
+caryatin-3'-sulphate
+caryophyllene oxide
+catechin
+catechin gallate
+cedrol
+chrysophanol
+cupressuflavone
+D-limonene
+daphenone
+daphnelone
+daphnoretin
+delta-cadinene
+delta-sesamin
+diosmetin 7-O-beta-D-apiofuranoside
+diosmetin 7-O-beta-L-arabinofuranosyl (1→2) beta-D-apiofuranoside
+epicatechin
+eucalyptol
+excelside B
+feralolide
+flavan-3-ol
+foliamangiferoside A
+foliamangiferoside A1
+foliamangiferoside D
+gallic acid
+gallic glucoside
+gamma-cadinene
+gamma-curcumene
+gamma-muurolene
+gamma-terpinene
+germacrene D
+GI-3
+GI-5
+guaiol
+hyperoside
+isoquercetrin
+ivain IV
+kaempferol-4'-methoxy-3,7-dirhamnoside
+laevigatin I
+laevigatin II
+limonene
+lupeol
+lupeol acetate
+lupeol arachidate
+luteolin 4'-O-beta-D-neohesperidoside
+mangiferin
+mangiferin methyl ether
+mangiferoxanthone A
+methyl 6-hydroxyangolensate
+methyl salicylate
+microdontin
+myricitrin
+nuzhenide
+oleoside dimethyl ester
+para-methoxy thymol
+penicilloside A
+penicilloside B
+penicilloside C
+penicilloside D
+penicilloside E
+penicilloside F
+penicilloside G
+penta-O-galloyl-glucose
+periplocadiol
+procrim a
+procrim b
+protocatechuic acid
+psoralen
+quercetin
+quercetin 3-O-[(2,4-diacetyl-alpha-L-rhamnopyranosyl)-(1→6)]-2,4-diacetyl-beta-D-galactopyranoside
+quercetin 3-O-[(2,4-diacetyl-alpha-L-rhamnopyranosyl)-(1→6)]-3,4-diacetyl-beta-D-galactopyranoside
+quercetin-3'-methoxy-3-O-(4''-acetylrhamnoside)-7-O-alpha-rhamnoside
+quercetin-3-O-beta-D-glucopyranoside
+quercitrin
+russelioside A
+russelioside B
+russelioside C
+russelioside D
+russelioside E
+russelioside F
+russelioside G
+russelioside H
+rutarensin
+scropolioside D
+stigmasterol
+sweroside
+swietemahonin G
+swietenialide A
+swietenialide B
+swietenialide C
+swietenialide D
+swietenialide E
+swietephragmin A
+swietephragmin B
+swietephragmin C
+swietephragmin D
+swietephragmin E
+swietephragmin F
+swietephragmin G
+swietephragmin H
+swietephragmin I
+tau-muurolol
+terpinen-1-ol-4
+terpinen-4-1 ol
+terpinen-4-ol
+terpinolene
+tetra-O-galloyl-glucose
+thuyone
+thymohydroquinone
+trans-tiliroside
+umbelliferone
+wikstromol
+xanthotoxin
