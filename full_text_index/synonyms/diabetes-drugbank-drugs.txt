@@ -28,14 +28,6 @@ Glipizide
 Glyburide
 Hydrochlorothiazide
 Idelalisib
-Aspart
-Degludec
-Detemir
-Glargine
-Glulisine
-Human
-Lispro
-Pork
 Irbesartan
 Linagliptin
 Liraglutide
