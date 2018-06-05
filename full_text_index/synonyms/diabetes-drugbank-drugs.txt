@@ -22,6 +22,7 @@ Eprosartan
 Ertugliflozin
 Exenatide
 Fosinopril
+Glargine
 Gliclazide
 Glimepiride
 Glipizide
