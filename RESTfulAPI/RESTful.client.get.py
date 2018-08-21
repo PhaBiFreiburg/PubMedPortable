@@ -109,7 +109,7 @@ fh = open(inputFile)
 outPutFH = open(outPutFile, 'w')
 
 downloadProgress = ProgressBar(612508, fmt=ProgressBar.FULL)
-skipLines = 51819
+skipLines = 149682
 
 for pmid in fh:
 	#Submit
